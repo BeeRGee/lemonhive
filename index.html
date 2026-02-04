@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LemonHive Tech | IT Infrastructure</title>
+    <style>
+        :root {
+            --lemon-yellow: #f1c40f;
+            --honey-dark: #d4ac0d;
+            --hive-navy: #1a252f;
+            --soft-cream: #fdfaf0;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            line-height: 1.6;
+            background-color: var(--soft-cream);
+            color: #333;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--hive-navy);
+            display: flex; justify-content: center;
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        nav a {
+            color: white; padding: 18px 20px; text-decoration: none;
+            font-weight: bold; font-size: 0.85rem; text-transform: uppercase;
+            cursor: pointer; transition: 0.3s;
+        }
+
+        nav a:hover, nav a.active { background-color: var(--lemon-yellow); color: var(--hive-navy); }
+
+        /* Hero Header */
+        header {
+            background: linear-gradient(rgba(26, 37, 47, 0.85), rgba(26, 37, 47, 0.85)), 
+                        url('https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?auto=format&fit=crop&w=1500&q=80');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            color: white; padding: 8rem 2rem; text-align: center; border-bottom: 6px solid var(--lemon-yellow);
+        }
+
+        .container {
+            max-width: 1100px; margin: -60px auto 4rem; padding: 0 20px;
+            position: relative; z-index: 10;
+        }
+
+        .content-card {
+            background: white; padding: 3.5rem; border-radius: 15px; box-shadow: var(--shadow);
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.5s ease; }
+
+        /* Support Tab Layout */
+        .support-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 2rem; }
+        .support-card { background: #fcfcfc; border: 1px solid #eee; padding: 30px; border-radius: 12px; text-align: center; }
+        .remote-btn { background: var(--lemon-yellow); color: var(--hive-navy); padding: 15px 25px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 15px; transition: 0.3s; }
+        .remote-btn:hover { background: var(--honey-dark); transform: scale(1.03); }
+        .support-form { text-align: left; display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+        .support-form input, .support-form textarea { padding: 10px; border: 1px solid #ddd; border-radius: 5px; width: 100%; box-sizing: border-box; font-family: inherit; }
+        .support-form button { background: var(--hive-navy); color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .support-form button:hover { background: var(--lemon-yellow); color: var(--hive-navy); }
+        .process-flow { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 30px; border-top: 1px solid #eee; gap: 10px; }
+        .process-step { flex: 1; text-align: center; }
+        .step-circle { width: 35px; height: 35px; background: var(--lemon-yellow); color: var(--hive-navy); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-weight: bold; }
+
+        /* Insights Styles */
+        .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 2rem; }
+        .insight-card { border: 1px solid #eee; border-radius: 12px; overflow: hidden; transition: 0.3s; background: #fff; }
+        .insight-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+        .insight-img { width: 100%; height: 180px; background-size: cover; background-position: center; }
+        .insight-body { padding: 20px; }
+        .insight-tag { background: var(--lemon-yellow); color: var(--hive-navy); font-size: 0.7rem; font-weight: bold; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
+        .insight-body h4 { margin: 15px 0 10px; color: var(--hive-navy); }
+        .insight-body p { font-size: 0.9rem; color: #666; margin-bottom: 15px; }
+        .read-more { color: var(--honey-dark); text-decoration: none; font-weight: bold; font-size: 0.85rem; }
+
+        /* Portfolio Grid */
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 2rem; }
+        .portfolio-item { position: relative; overflow: hidden; border-radius: 12px; border: 1px solid #eee; transition: 0.3s; background: white; }
+        .portfolio-item img { width: 100%; height: 250px; object-fit: cover; display: block; transition: transform 0.5s; }
+        .portfolio-item:hover img { transform: scale(1.1); }
+        .portfolio-caption { padding: 15px; background: white; border-top: 3px solid var(--lemon-yellow); }
+        .portfolio-caption h4 { margin: 0; color: var(--hive-navy); }
+        .portfolio-caption p { margin: 5px 0 0; font-size: 0.85rem; color: #666; }
+
+        /* UI Elements */
+        h2 { color: var(--hive-navy); font-size: 2rem; margin-top: 0; }
+        h3 { color: var(--honey-dark); margin-top: 2rem; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin-top: 2rem; }
+        .feature-box { padding: 20px; background: var(--soft-cream); border-radius: 10px; border-bottom: 3px solid var(--lemon-yellow); }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-top: 20px; }
+        .service-item { border: 1px solid #eee; padding: 15px; border-radius: 8px; border-top: 3px solid var(--lemon-yellow); }
+
+        /* Contact Section */
+        .contact-info { background: var(--hive-navy); color: white; padding: 25px; border-radius: 10px; margin-top: 2rem; }
+        .map-container { margin-top: 2rem; border-radius: 10px; overflow: hidden; border: 2px solid var(--lemon-yellow); height: 350px; }
+        .contact-form { margin: 3rem auto 0 auto; max-width: 500px; display: flex; flex-direction: column; gap: 15px; text-align: center; }
+        .contact-form input, .contact-form textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; box-sizing: border-box; transition: 0.3s; outline: none; }
+        .contact-form input:focus, .contact-form textarea:focus { border-color: var(--lemon-yellow); box-shadow: 0 0 8px rgba(241, 196, 15, 0.3); }
+        .contact-form button { background-color: var(--lemon-yellow); color: var(--hive-navy); border: none; padding: 12px 30px; border-radius: 25px; font-weight: bold; cursor: pointer; transition: 0.3s; width: fit-content; margin: 0 auto; }
+        .contact-form button:hover { background-color: var(--honey-dark); transform: translateY(-2px); }
+
+        /* Chatbot Styles */
+        #chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 2000; }
+        #chat-button { background-color: var(--lemon-yellow); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); cursor: pointer; font-size: 30px; transition: transform 0.3s; }
+        #chat-window { display: none; width: 320px; height: 450px; background: white; border-radius: 15px; box-shadow: var(--shadow); position: absolute; bottom: 80px; right: 0; flex-direction: column; overflow: hidden; border: 1px solid #ddd; }
+        .chat-header { background: var(--hive-navy); color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;}
+        .chat-body { flex: 1; padding: 15px; font-size: 0.9rem; overflow-y: auto; background: #f9f9f9; display: flex; flex-direction: column; gap: 10px; }
+        .bot-msg { background: #eee; padding: 10px; border-radius: 10px; border-bottom-left-radius: 2px; align-self: flex-start; max-width: 80%; }
+        .user-msg { background: var(--lemon-yellow); padding: 10px; border-radius: 10px; border-bottom-right-radius: 2px; align-self: flex-end; max-width: 80%; font-weight: bold; }
+        .chat-options { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
+        .opt-btn { background: white; border: 1px solid var(--lemon-yellow); padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; cursor: pointer; transition: 0.2s; }
+        .opt-btn:hover { background: var(--lemon-yellow); }
+        .chat-footer { padding: 10px; border-top: 1px solid #eee; background: white; }
+        .chat-footer input { width: 90%; border: 1px solid #ddd; padding: 8px; border-radius: 5px; outline: none; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        footer { text-align: center; padding: 4rem 2rem; background: var(--hive-navy); color: #ecf0f1; margin-top: 5rem; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a onclick="openTab(event, 'home')" class="active">Home</a>
+        <a onclick="openTab(event, 'solutions')">Solutions</a>
+        <a onclick="openTab(event, 'portfolio')">Portfolio</a>
+        <a onclick="openTab(event, 'insights')">Insights</a>
+        <a onclick="openTab(event, 'support')">Support</a>
+        <a onclick="openTab(event, 'contact')">Contact</a>
+    </nav>
+
+    <header>
+        <h1>LemonHive Tech</h1>
+        <p>Precision Engineering. Collective Intelligence.</p>
+    </header>
+
+    <div class="container">
+        <div class="content-card">
+            
+            <div id="home" class="tab-content active">
+                <h2>Your Partner in Digital Resilience</h2>
+                <h3>Who We Are</h3>
+                <p>At <b>LemonHive Tech</b>, we build the digital foundations that allow businesses to thrive. Based on a "Collective Intelligence" model, we approach every IT environment as a living ecosystem. From the physical cabling in your walls to the invisible security of your cloud servers, we ensure every "cell" of your business is connected, protected, and performing at its peak.</p>
+
+                <h3>Our Philosophy – The Hive Mind</h3>
+                <p>The most successful systems rely on seamless communication and structured efficiency. We bring that same level of organization to your IT infrastructure.</p>
+                <ul>
+                    <li><b>Fresh Perspective:</b> A sharp, modern approach to aging tech.</li>
+                    <li><b>Scalable Growth:</b> Systems built to grow with your business.</li>
+                    <li><b>Security by Design:</b> Security is a requirement, not an afterthought.</li>
+                </ul>
+
+                <h3>Why Choose LemonHive Tech?</h3>
+                <div class="feature-grid">
+                    <div class="feature-box"><h4>End-to-End Ownership</h4><p>We manage projects from initial cabling to final cloud migration.</p></div>
+                    <div class="feature-box"><h4>Vendor Neutrality</h4><p>The best tools for YOUR budget: Windows, macOS, or Linux.</p></div>
+                    <div class="feature-box"><h4>Proactive Support</h4><p>Solving bottlenecks before they cause downtime, 24/7.</p></div>
+                </div>
+            </div>
+
+            <div id="solutions" class="tab-content">
+                <h2>🚀 Our Core Services</h2>
+                <div class="services-grid">
+                    <div class="service-item"><h4>Network Setup</h4><ul><li>Structured cabling</li><li>Router/Switch setup</li><li>ISP coordination</li></ul></div>
+                    <div class="service-item"><h4>Office Setup</h4><ul><li>Printer troubleshooting</li><li>Workstation prep</li><li>OS Installation</li></ul></div>
+                    <div class="service-item"><h4>Cloud Solutions</h4><ul><li>Migration</li><li>M365/Google setup</li><li>Cloud hosting</li></ul></div>
+                    <div class="service-item"><h4>IT Audit</h4><ul><li>Security assessments</li><li>Upgrade planning</li></ul></div>
+                </div>
+            </div>
+
+            <div id="portfolio" class="tab-content">
+                <h2>Project Portfolio</h2>
+                <div class="portfolio-grid">
+                    <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80"><div class="portfolio-caption"><h4>Server Infrastructure</h4><p>Full rack installation and cable management.</p></div></div>
+                    <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80"><div class="portfolio-caption"><h4>Cloud Migration</h4><p>Moving teams to secure M365 and Google cloud hosting.</p></div></div>
+                    <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?auto=format&fit=crop&w=600&q=80"><div class="portfolio-caption"><h4>Remote Support Hub</h4><p>24/7 monitoring and remote assistance protocols.</p></div></div>
+                    <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&q=80"><div class="portfolio-caption"><h4>Modern Office Deployment</h4><p>Workstation and VoIP setup for high-growth startups.</p></div></div>
+                    <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=600&q=80"><div class="portfolio-caption"><h4>WiFi Optimization</h4><p>High-density wireless deployment for warehouses.</p></div></div>
+                    <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80"><div class="portfolio-caption"><h4>Strategic IT Audit</h4><p>Comprehensive infrastructure review and roadmaps.</p></div></div>
+                    <div class="portfolio-item"><img src="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=600&q=80"><div class="portfolio-caption"><h4>Smart Office IoT</h4><p>Automated lighting, entry, and energy management.</p></div></div>
+                </div>
+            </div>
+
+            <div id="insights" class="tab-content">
+                <h2>Hive Insights</h2>
+                <div class="insights-grid">
+                    <div class="insight-card">
+                        <div class="insight-img" style="background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&q=80');"></div>
+                        <div class="insight-body">
+                            <span class="insight-tag">Security</span>
+                            <h4>The 2026 Security Checklist</h4>
+                            <p>Is your office hardware protected? Check these 5 vital points.</p>
+                            <a href="#" class="read-more">Read Entry →</a>
+                        </div>
+                    </div>
+                    <div class="insight-card">
+                        <div class="insight-img" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=400&q=80');"></div>
+                        <div class="insight-body">
+                            <span class="insight-tag">Cloud</span>
+                            <h4>Hybrid vs. Pure Cloud</h4>
+                            <p>Why some hives are moving back to a hybrid model for better data sovereignty.</p>
+                            <a href="#" class="read-more">Read Entry →</a>
+                        </div>
+                    </div>
+                    <div class="insight-card">
+                        <div class="insight-img" style="background-image: url('https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=400&q=80');"></div>
+                        <div class="insight-body">
+                            <span class="insight-tag">AI Integration</span>
+                            <h4>AI in Small Business</h4>
+                            <p>How to implement local AI models to automate your internal helpdesk without leaking data.</p>
+                            <a href="#" class="read-more">Read Entry →</a>
+                        </div>
+                    </div>
+                    <div class="insight-card">
+                        <div class="insight-img" style="background-image: url('https://images.unsplash.com/photo-1587560699334-cc4ff634909a?auto=format&fit=crop&w=400&q=80');"></div>
+                        <div class="insight-body">
+                            <span class="insight-tag">Remote Work</span>
+                            <h4>Zero Trust for Remote Teams</h4>
+                            <p>Beyond VPNs: Why 2026 is the year to shift your remote infrastructure to Zero Trust Access.</p>
+                            <a href="#" class="read-more">Read Entry →</a>
+                        </div>
+                    </div>
+                    <div class="insight-card">
+                        <div class="insight-img" style="background-image: url('https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=400&q=80');"></div>
+                        <div class="insight-body">
+                            <span class="insight-tag">Sustainability</span>
+                            <h4>Green Computing</h4>
+                            <p>Reducing your hive's carbon footprint through energy-efficient server management.</p>
+                            <a href="#" class="read-more">Read Entry →</a>
+                        </div>
+                    </div>
+                    <div class="insight-card">
+                        <div class="insight-img" style="background-image: url('https://images.unsplash.com/photo-1590494165264-1ebe3602eb80?auto=format&fit=crop&w=400&q=80');"></div>
+                        <div class="insight-body">
+                            <span class="insight-tag">Disaster Recovery</span>
+                            <h4>The '3-2-1' Backup Rule</h4>
+                            <p>A simple guide to ensuring your data survives even the most catastrophic hardware failures.</p>
+                            <a href="#" class="read-more">Read Entry →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="contact" class="tab-content">
+                <h2>📞 Contact the Hive</h2>
+                <div class="contact-info">
+                    <p><b>Phone:</b> 74305624</p>
+                    <p><b>Email:</b> <a href="mailto:LemonHiveTech@gmail.com" style="color:var(--lemon-yellow); text-decoration: none;">LemonHiveTech@gmail.com</a></p>
+                </div>
+                
+                <div class="map-container">
+                    <iframe 
+                        width="100%" 
+                        height="100%" 
+                        frameborder="0" 
+                        scrolling="no" 
+                        marginheight="0" 
+                        marginwidth="0" 
+                        src="https://maps.google.com/maps?width=100%25&height=600&hl=en&q=Port%20Moresby,%20Papua%20New%20Guinea+(LemonHive%20Tech)&t=&z=13&ie=UTF8&iwloc=B&output=embed">
+                    </iframe>
+                </div>
+
+                <div class="contact-form">
+                    <h3>Send us a Message</h3>
+                    <input type="text" placeholder="Your Name" id="userName">
+                    <input type="email" placeholder="Your Email" id="userEmail">
+                    <textarea placeholder="How can the Hive help you?" rows="4" id="userMsg"></textarea>
+                    <button onclick="submitForm()">Send Message 🚀</button>
+                </div>
+            </div>
+
+            <div id="support" class="tab-content">
+                <h2>Customer Support Portal</h2>
+                <p>Fast, reliable technical assistance for our existing partners.</p>
+                
+                <div class="support-grid">
+                    <div class="support-card">
+                        <h3>Remote Help</h3>
+                        <p>Need immediate desktop assistance? Download our remote tool for secure screen-sharing support.</p>
+                        <a href="https://anydesk.com/en/downloads" target="_blank" class="remote-btn">Download Remote Support</a>
+                    </div>
+                    
+                    <div class="support-card">
+                        <h3>Open a Support Ticket</h3>
+                        <form class="support-form" onsubmit="event.preventDefault(); alert('The Hive has received your ticket! We will contact you shortly.');">
+                            <input type="text" placeholder="Company Name" required>
+                            <input type="email" placeholder="Contact Email" required>
+                            <input type="text" placeholder="Issue Subject" required>
+                            <textarea rows="3" placeholder="Please describe the issue in detail..." required></textarea>
+                            <button type="submit">Submit Ticket</button>
+                        </form>
+                    </div>
+                </div>
+
+                <h3 style="text-align:center; margin-top:3rem;">How Our Support Process Works</h3>
+                <div class="process-flow">
+                    <div class="process-step">
+                        <div class="step-circle">1</div>
+                        <p style="font-size:0.8rem; font-weight:bold;">SUBMIT</p>
+                        <p style="font-size:0.75rem;">Open a ticket or launch remote tool</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-circle">2</div>
+                        <p style="font-size:0.8rem; font-weight:bold;">ASSESS</p>
+                        <p style="font-size:0.75rem;">A Hive technician reviews the request</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-circle">3</div>
+                        <p style="font-size:0.8rem; font-weight:bold;">FIX</p>
+                        <p style="font-size:0.75rem;">Rapid resolution via remote or onsite</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-circle">4</div>
+                        <p style="font-size:0.8rem; font-weight:bold;">RESOLVED</p>
+                        <p style="font-size:0.75rem;">System check and ticket closure</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div id="chat-widget">
+        <div id="chat-window">
+            <div class="chat-header"><span>Hive Assistant</span><span onclick="toggleChat()" style="cursor:pointer; font-size: 24px;">×</span></div>
+            <div class="chat-body" id="chat-body">
+                <div class="bot-msg">Hi there! Welcome to the Hive. How can I help you?</div>
+                <div class="chat-options">
+                    <button class="opt-btn" onclick="botReply('services')">Our Services</button>
+                    <button class="opt-btn" onclick="botReply('quote')">Get a Quote</button>
+                    <button class="opt-btn" onclick="botReply('contact')">Call Us</button>
+                </div>
+            </div>
+            <div class="chat-footer"><input type="text" placeholder="Type a message..."></div>
+        </div>
+        <div id="chat-button" onclick="toggleChat()">🍋</div>
+    </div>
+
+    <footer><p>© 2026 <b>LemonHive Tech</b></p></footer>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) { tabcontent[i].classList.remove("active"); }
+            tablinks = document.querySelectorAll("nav a");
+            for (i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+            window.scrollTo({top: 400, behavior: 'smooth'});
+        }
+
+        function toggleChat() {
+            var chatWin = document.getElementById("chat-window");
+            chatWin.style.display = (chatWin.style.display === "flex") ? "none" : "flex";
+        }
+
+        function botReply(type) {
+            const body = document.getElementById('chat-body');
+            let userText = "", botText = "";
+            if(type === 'services') { userText = "Tell me about your services."; botText = "Full Network Setup, Cloud Migrations, Office Setup, and IT Audits!"; }
+            else if (type === 'quote') { userText = "I'd like a quote."; botText = "Email us at LemonHiveTech@gmail.com with your project details!"; }
+            else if (type === 'contact') { userText = "How do I call you?"; botText = "Reach us at 71283270. We're ready to help!"; }
+            body.innerHTML += `<div class="user-msg">${userText}</div>`;
+            setTimeout(() => { body.innerHTML += `<div class="bot-msg">${botText}</div>`; body.scrollTop = body.scrollHeight; }, 600);
+        }
+
+        function submitForm() { alert("Thank you for reaching out! The Hive Assistant has received your details."); }
+
+        window.onload = function() {
+            setTimeout(function() { if (document.getElementById("chat-window").style.display !== "flex") { toggleChat(); } }, 3000); 
+        };
+    </script>
+</body>
+</html>
